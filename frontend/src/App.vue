@@ -1,18 +1,29 @@
 <template>
   <div id="app">
-    <h1>Chat Application</h1>
-    <Chat :participantName="participantName" v-if="showChatRoom" />
-    <ParticipantForm v-else v-on:participantName="updateParticipantName" />
+    <div class="banner">
+      <h1>Chat Application</h1>
+    </div>
+    <ParticipantForm v-if="!showChatRoom" v-on:participantName="updateParticipantName" />
+    <div v-else>
+      <div id="salon-p">
+         <Chat :participantName="participantName"  />
+      </div>
+      <div id="list-p">
+        <ParticipantList  />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import ParticipantForm from "./components/ParticipantForm";
+import ParticipantList from "./components/ParticipantList";
 import Chat from "./components/Chat";
 export default {
   name: "App",
   components: {
     ParticipantForm,
+    ParticipantList,
     Chat
   },
   data() {

@@ -1,11 +1,12 @@
-const server = require("http").createServer();
-const io = require("socket.io")(server);
-const uuid = require("uuid");
+const server = require('http').createServer();
+const io = require('socket.io')(server);
+const uuid = require('uuid');
 const clients = new Map();
-io.on("connection", client => {
+io.on('connection', client => {
   clients.set(client.id, client);
   console.log(`Client with ${client.id} is connected`);
-  client.on("event", receivedMsg => {
+  client.emit('clientList', clients.values());
+  client.on('event', receivedMsg => {
     console.log(
       `Client with id: ${client.id} send the following data to the server: ${receivedMsg}`
     );
@@ -15,12 +16,12 @@ io.on("connection", client => {
         author: receivedMsg.author,
         value: receivedMsg.value
       };
-      client.emit("event", msg);
+      client.emit('event', msg);
     }
   });
-  client.on("disconnect", () => {
+  client.on('disconnect', () => {
     clients.delete(client.id);
   });
 });
 
-server.listen(3000);
+server.listen(4001);

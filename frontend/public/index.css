@@ -1,0 +1,67 @@
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+/* 
+    Headers font style
+*/
+h1,
+h2 {
+  font-family: "Courgette", cursive;
+}
+
+/* 
+    Headers colors
+*/
+h1 {
+  color: orange;
+}
+
+h2 {
+  color: blue;
+}
+
+/* 
+    Table style
+*/
+table,
+th,
+td {
+  border: 1px solid black;
+}
+table {
+  border-spacing: 5px;
+}
+td {
+  padding: 5px;
+}
+th {
+  font-family: "Courgette", cursive;
+}
+
+.banner {
+  text-align: center;
+  border: 5px solid silver;
+  border-radius: 10px 100px / 120px;
+  margin-bottom: 20px;
+}
+.triangle {
+  width: 0;
+  height: 0;
+  border-top: 18px solid transparent;
+  border-bottom: 18px solid transparent;
+  border-left: 30px solid green;
+}
+#salon-p {
+  float: left;
+  border: 2px solid silver;
+  padding: 20px;
+  width: 60%;
+}
+#list-p {
+  vertical-align: top;
+  width: 25%;
+  padding: 20px;
+  border: 2px solid silver;
+  float: right;
+}

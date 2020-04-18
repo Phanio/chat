@@ -19,6 +19,7 @@ export default {
   data() {
     return {
       messages: [],
+      participates:[],
       messageToSent: null
     };
   },
@@ -27,8 +28,15 @@ export default {
   },
   created() {},
   sockets: {
-    event: function(data) {
+    event: (data)=> {
+      let user = {id:'',author:''};
+     user ={...data};
       this.messages = [...this.messages, { ...data }];
+      this.participates = this.participates.filter(p => p.id!==user.id);
+        this.participates=[ {...user},...this.participates];
+    },
+    clientList: (clients)=>{
+      console.log(clients);
     }
   },
   methods: {
