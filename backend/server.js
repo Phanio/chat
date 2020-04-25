@@ -1,27 +1,50 @@
-const server = require('http').createServer();
-const io = require('socket.io')(server);
+const app = require('express')();
+
+const http = require('http').Server(app);
 const uuid = require('uuid');
+const io = require('socket.io')(http);
+app.get('/login', (req, res) => {
+  console.log('login');
+});
 const clients = new Map();
-io.on('connection', client => {
-  clients.set(client.id, client);
-  console.log(`Client with ${client.id} is connected`);
-  client.emit('clientList', clients.values());
-  client.on('event', receivedMsg => {
-    console.log(
-      `Client with id: ${client.id} send the following data to the server: ${receivedMsg}`
-    );
-    for (const client of clients.values()) {
-      const msg = {
-        id: uuid.v4(),
-        author: receivedMsg.author,
-        value: receivedMsg.value
-      };
-      client.emit('event', msg);
-    }
-  });
+
+io.on('connection', (client) => {
+  io.emit('noOfConnections', Object.keys(io.sockets.connected).length);
+
   client.on('disconnect', () => {
-    clients.delete(client.id);
+    console.log('disconnected');
+    io.emit('noOfConnections', Object.keys(io.sockets.connected).length);
+  });
+
+  client.on('chatmessage', (msg) => {
+    const mg = {id: uuid.v4(),...msg}
+    io.emit('chatmessage', mg);
+  });
+  client.on('joined', (name) => {
+    clients.set(client.id, { id: client.id, idb: uuid.v4(), name });
+    console.log(clients.entries());
+    const list = [];
+    for (var valeur of clients.values()) {
+      console.log(valeur);
+      list.push(valeur);
+    }
+    console.log('list2===',list);
+    io.emit('joined', list);
+  });
+  client.on('leaved', (name) => {
+    console.log('leave==', name);
+    client.broadcast.emit('leaved', name);
+  });
+
+  client.on('typing', (data) => {
+    client.broadcast.emit('typing', data);
+  });
+  client.on('stoptyping', () => {
+    client.broadcast.emit('stoptyping');
   });
 });
 
-server.listen(4001);
+http.listen(3000, () => {
+  console.log('Server is started at http://localhost:3000');
+})
+;

@@ -6,10 +6,10 @@
     <ParticipantForm v-if="!showChatRoom" v-on:participantName="updateParticipantName" />
     <div v-else>
       <div id="salon-p">
-         <Chat :participantName="participantName"  />
+         <Chat :participantName="participantName" v-on:clients='onlineClient'  />
       </div>
       <div id="list-p">
-        <ParticipantList  />
+        <ParticipantList :clientOnline='clientOnline' />
       </div>
     </div>
   </div>
@@ -29,7 +29,8 @@ export default {
   data() {
     return {
       participantName: null,
-      showChatRoom: false
+      showChatRoom: false,
+      clientOnline:[]
     };
   },
   created() {},
@@ -37,6 +38,9 @@ export default {
     updateParticipantName(participantName) {
       this.participantName = participantName;
       this.showChatRoom = true;
+    },
+    onlineClient(client){
+      this.clientOnline = [...this.clientOnline, ...client];
     }
   }
 };

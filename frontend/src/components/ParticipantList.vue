@@ -1,9 +1,10 @@
 <template>
   <div>
-    <ul v-for="p in participants" v-bind:key="p.id">
-      <li>
-        <div class="triangle"></div>
-        {{ p.username }}
+    <h2 style="font-size:20px">Online</h2>
+    <ul v-for="c in clientOnline" v-bind:key="c.idBd">
+      <li class="lip">
+        <div class="moncercle"></div>
+        {{ c.name }}
       </li>
     </ul>
   </div>
@@ -12,25 +13,16 @@
 <script>
 export default {
   name: "ParticipantList",
-  props: {},
+  props: {clientOnline: Array},
   data() {
     return {
       participates: []
     };
   },
   created() {},
-   sockets: {
-    event: function(data) {
-      let user = {id:'',author:''};
-     user ={...data}; 
-      this.participates = this.participates.filter(p => p.id!==user.id);
-        this.participates=[ {...user},...this.participates];
-    }
-  },
+  
   methods: {
-    participate() {
-      this.$emit("participantName", this.participantName);
-    }
+    
   }
 };
 </script>
@@ -40,5 +32,16 @@ label,
 input {
   display: block;
   margin-bottom: 10px;
+}
+.moncercle{
+  background:#bfd70e;
+  border-radius:50%;
+  width:10px;
+  height:10px;
+  border:2px solid #679403; 
+  margin-right: 10 px;
+}
+.lip{
+  display: flex;
 }
 </style>
