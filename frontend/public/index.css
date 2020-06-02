@@ -6,7 +6,7 @@ body {
     Headers font style
 */
 h1,
-h2 {
+h2,h3 {
   font-family: "Courgette", cursive;
 }
 
@@ -17,7 +17,7 @@ h1 {
   color: orange;
 }
 
-h2 {
+h2,h3 {
   color: blue;
 }
 

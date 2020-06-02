@@ -2,6 +2,7 @@
   <div id="app">
     <div class="banner">
       <h1>Chat Application</h1>
+      <h3>Connected as : {{participantName}}</h3>
     </div>
     <ParticipantForm v-if="!showChatRoom" v-on:participantName="updateParticipantName" />
     <div v-else>
@@ -40,7 +41,7 @@ export default {
       this.showChatRoom = true;
     },
     onlineClient(client){
-      this.clientOnline = [...this.clientOnline, ...client];
+      this.clientOnline = [...client];
     }
   }
 };

@@ -13,7 +13,13 @@ io.on('connection', (client) => {
 
   client.on('disconnect', () => {
     console.log('disconnected');
-    io.emit('noOfConnections', Object.keys(io.sockets.connected).length);
+    clients.delete(client.id);
+    const list = [];
+    for (var valeur of clients.values()) {
+      console.log(valeur);
+      list.push(valeur);
+    }
+    io.emit('disconnect', list);
   });
 
   client.on('chatmessage', (msg) => {
@@ -22,7 +28,6 @@ io.on('connection', (client) => {
   });
   client.on('joined', (name) => {
     clients.set(client.id, { id: client.id, idb: uuid.v4(), name });
-    console.log(clients.entries());
     const list = [];
     for (var valeur of clients.values()) {
       console.log(valeur);
@@ -32,8 +37,14 @@ io.on('connection', (client) => {
     io.emit('joined', list);
   });
   client.on('leaved', (name) => {
+    clients.delete(client.id);
+    const list = [];
+    for (var valeur of clients.values()) {
+      console.log(valeur);
+      list.push(valeur);
+    }
     console.log('leave==', name);
-    client.broadcast.emit('leaved', name);
+    io.emit('leaved', list);
   });
 
   client.on('typing', (data) => {
